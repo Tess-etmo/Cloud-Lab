@@ -37,6 +37,7 @@ REPORT_PATH = REPO_ROOT / "submission" / "phase0_report.json"
 # --------------------------------------------------------------------------- #
 # Functions YOU implement
 # --------------------------------------------------------------------------- #
+
 def parse_gcloud_config(raw: str) -> dict:
     """Parse the JSON emitted by ``gcloud config list --format=json``.
 
@@ -51,7 +52,27 @@ def parse_gcloud_config(raw: str) -> dict:
     # TODO: parse `raw` as JSON and return {"account": ..., "project": ...}
     #       from the "core" section. Return empty strings if raw is empty or a
     #       field is missing.
+    default_result = {"account": "", "project": ""}
+
+    if not raw or not raw.strip():
+        return default_result
+
+    try:
+        data = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return default_result
+
+    core = data.get("core", {})
+    if not isinstance(core, dict):
+        core = {}
+
+    return {
+        "account": core.get("account") or "",
+        "project": core.get("project") or ""
+    }
     raise NotImplementedError("Phase 0: implement parse_gcloud_config()")
+
+
 
 
 def parse_repo_slug(remote_url: str) -> str:
@@ -69,6 +90,28 @@ def parse_repo_slug(remote_url: str) -> str:
     """
     # TODO: return "owner/repo" for both the HTTPS and SSH forms shown above.
     #       Strip any trailing ".git". Return "" if not a github.com URL.
+    if not remote_url or not remote_url.strip():
+        return ""
+    
+    url = remote_url.strip()
+    
+    if "github.com" not in url:
+        return ""
+    
+    # Nettoyage du suffixe .git et des slashes de fin
+    if url.endswith(".git"):
+        url = url[:-4]
+    url = url.rstrip("/")
+    
+    # Extraction après github.com/ ou github.com:
+    if "github.com/" in url:
+        slug = url.split("github.com/")[1]
+        return slug if slug else ""
+    elif "github.com:" in url:
+        slug = url.split("github.com:")[1]
+        return slug if slug else ""
+        
+    return ""
     raise NotImplementedError("Phase 0: implement parse_repo_slug()")
 
 
