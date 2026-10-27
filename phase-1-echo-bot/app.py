@@ -29,7 +29,7 @@ def build_echo(message: str) -> dict:
     """
 
     # TODO: return {"echo": message, "length": len(message)}
-    return {'echo' : message, 'length': len(message)}  # TODO: return {"echo": message, "length": len(message)}
+    return {'echo' : message, 'length': len(message)}  
 
     raise NotImplementedError("Phase 1: implement build_echo()")
 
