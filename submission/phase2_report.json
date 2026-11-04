@@ -1,0 +1,30 @@
+{
+  "phase": "2",
+  "environment": {
+    "colab": true
+  },
+  "attention": {
+    "naive_ms": 402.7,
+    "vectorized_ms": 1.121,
+    "speedup": 359.23
+  },
+  "threads": {
+    "1": 3620.241,
+    "2": 1729.335,
+    "4": 1869.561,
+    "8": 2139.574
+  },
+  "devices": {
+    "cpu_ms": 458043.8,
+    "gpu_ms": 15301.1
+  },
+  "training": {
+    "steps": 2000,
+    "final_loss": 1.4458,
+    "param_count": 4935680
+  },
+  "sample": "\nRICHARD:\nNay, put I call of enver armiss the Dantoger?\n\nRICHARD:\nWhy, that Imbeladve which means there Ca'ill.\n\n\nKING EDWARD IV:\nNow not, father, mongue sand, my not boy.\n\nDUKE VINCENTIO:\nUnepath yet ",
+  "model": {
+    "gcs_url": "https://storage.googleapis.com/cloud-lab-tem-eurecomgpt/model.safetensors"
+  }
+}
