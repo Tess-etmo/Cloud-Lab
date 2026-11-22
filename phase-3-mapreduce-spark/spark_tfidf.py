@@ -39,9 +39,7 @@ def doc_freq(tf_rdd):
     ``(term, 1)`` and sum per term.
     """
     return tf_rdd.map(
-        lambda item: (item[0][1], item[0][0])  # (term, doc_id)
-    ).distinct().map(
-        lambda pair: (pair[0], 1)             # (term, 1)
+        lambda item: (item[0][0], 1)  # item[0] est (term, doc_id), item[0][0] est le term
     ).reduceByKey(lambda a, b: a + b)
     raise NotImplementedError("Phase 3: implement doc_freq()")
 
