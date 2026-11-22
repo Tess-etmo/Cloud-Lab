@@ -27,7 +27,7 @@ Numbers only (e.g. `12`, `20.3`, `0.041`).
 | Cloud MapReduce wall time, seconds (`mapreduce.cloud_elapsed_s`) | <!--answer:cloud_elapsed_s-->29.6<!--/answer--> |
 | Local single-process wall time, seconds (`mapreduce.local_elapsed_s`) | <!--answer:local_elapsed_s-->0.010<!--/answer--> |
 | Spark wall time for the `collect`, seconds (`tfidf.spark_elapsed_s`) | <!--answer:spark_elapsed_s-->3.6<!--/answer--> |
-| Number of **stages** in the Spark job (read off notebook 2b / 3a) | <!--answer:num_stages-->5<!--/answer--> |
+| Number of **stages** in the Spark job (read off notebook 2b / 3a) | <!--answer:num_stages-->1<!--/answer--> |
 | Task **retries** you counted in your `--chaos` run (0 if none happened) | <!--answer:chaos_retries-->TODO<!--/answer--> |
 
 **Explain the timings.** The three wall times above cover the same 60 documents, but not the
@@ -38,16 +38,16 @@ Spark number — a heavier job, on one machine — tells you about where the clo
 (~80 words)
 
 <!--answer:timing_explanation-->
-The single-process local run is fastest (10 ms) due to zero network overhead. Cloud MapReduce takes ~29.6s due to HTTP/OIDC call latency, container cold starts, and Cloud Storage I/O across 16 tasks[cite: 5]. Spark takes ~3.6s for TF-IDF; although it performs heavier math (two reduceByKeys, DF, IDF, and a join), Spark runs efficiently in-memory on a single driver/worker JVM compared to individual HTTP REST roundtrips per task in Cloud Run. The local run and cloud MapReduce represent the like-for-like word count comparison.
+The single-process local run is fastest (10 ms) due to zero network overhead. Cloud MapReduce takes ~29.6s due to HTTP/OIDC call latency, container cold starts, and Cloud Storage I/O across 12 tasks[cite: 5]. Spark takes ~3.6s for TF-IDF; although it performs heavier math (two reduceByKeys, DF, IDF, and a join), Spark runs efficiently in-memory on a single driver/worker JVM compared to individual HTTP REST roundtrips per task in Cloud Run. The local run and cloud MapReduce represent the like-for-like word count comparison.
 <!--/answer-->
 
 **What the counts tell you.** From your stage count: how many shuffles did the Spark job have,
 and which operations in `spark_tfidf.py` caused them? From your retry count: roughly what
-fraction of the 16 task attempts was retried, and is that what `--chaos 0.3` should produce?
+fraction of the 12 task attempts was retried, and is that what `--chaos 0.3` should produce?
 (~50 words)
 
 <!--answer:counts_interpretation-->
-The 5 stages correspond to the shuffle boundaries caused by the RDD transformations. For chaos retries, seeing ~3 retries out of task attempts aligns well with a 30% failure rate (`--chaos 0.3`), triggering automated retries with exponential backoff.
+The 1 stage correspond to the shuffle boundaries caused by the RDD transformations. For chaos retries, seeing ~3 retries out of task attempts aligns well with a 30% failure rate (`--chaos 0.3`), triggering automated retries with exponential backoff.
 <!--/answer-->
 
 ---

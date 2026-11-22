@@ -114,7 +114,7 @@
       }
     ],
     "cloud_elapsed_s": 29.6,
-    "local_elapsed_s": 0.01,
+    "local_elapsed_s": 0.023,
     "vocab_size": 2221,
     "top_terms": [
       [
@@ -163,12 +163,63 @@
   },
   "tfidf": {
     "parquet_gcs_url": "https://storage.googleapis.com/cloud-lab-tem-eurecomgpt/tfidf.parquet",
-    "num_rows": 0,
-    "spark_elapsed_s": 3.7
+    "num_rows": 5975,
+    "spark_elapsed_s": 0.4
   },
   "bigquery": {
     "table": "cloud-lab-tem.eurecomgpt.tfidf",
-    "top_by_tfidf": []
+    "top_by_tfidf": [
+      [
+        "voices",
+        56,
+        17.9176
+      ],
+      [
+        "receive",
+        5,
+        16.3774
+      ],
+      [
+        "belly",
+        4,
+        14.9787
+      ],
+      [
+        "voices",
+        59,
+        14.3341
+      ],
+      [
+        "condition",
+        31,
+        13.6048
+      ],
+      [
+        "letter",
+        37,
+        13.6048
+      ],
+      [
+        "citizen",
+        1,
+        13.0976
+      ],
+      [
+        "lamb",
+        33,
+        12.283
+      ],
+      [
+        "officer",
+        44,
+        11.9829
+      ],
+      [
+        "enough",
+        35,
+        11.9829
+      ]
+    ]
   },
   "comparison": {
     "notes": "see phase3_comparison.md"
