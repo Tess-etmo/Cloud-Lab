@@ -26,8 +26,9 @@ def term_freq(docs_rdd):
 
     Emit a ``((term, doc_id), 1)`` for every token (use ``tokenize``), then sum per key.
     """
-    # TODO: flatMap each (doc_id, text) to ((term, doc_id), 1) pairs via tokenize(text),
-    #       then reduceByKey to sum the counts.
+    return docs_rdd.flatMap(
+        lambda doc: [((doc[0], word), 1) for word in tokenize(doc[1])]
+    ).reduceByKey(lambda a, b: a + b)
     raise NotImplementedError("Phase 3: implement term_freq()")
 
 
@@ -37,7 +38,11 @@ def doc_freq(tf_rdd):
     Each ``(term, doc_id)`` key is one document containing the term, so map to
     ``(term, 1)`` and sum per term.
     """
-    # TODO: map each ((term, doc_id), tf) to (term, 1), then reduceByKey to get (term, df).
+    return tf_rdd.map(
+        lambda item: (item[0][1], item[0][0])  # (term, doc_id)
+    ).distinct().map(
+        lambda pair: (pair[0], 1)             # (term, 1)
+    ).reduceByKey(lambda a, b: a + b)
     raise NotImplementedError("Phase 3: implement doc_freq()")
 
 
